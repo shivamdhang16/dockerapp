@@ -12,7 +12,7 @@ pipeline{
             }
         }
 
-        stage("Docker container creat2"){
+        stage("Docker container creat3"){
             steps{
                 sh ''' docker run -d --name appcontainer -p 5000:5000 appimage'''
             }
