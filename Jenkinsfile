@@ -73,11 +73,14 @@ pipeline {
 
         stage("Deploy Using Docker Compose") {
             steps {
-                sh '''
+
+                 sh '''
+                export TAG=${BUILD_NUMBER}
+
                 docker-compose down || true
                 docker-compose pull
                 docker-compose up -d
-                '''
+        '''
             }
         }
     }
