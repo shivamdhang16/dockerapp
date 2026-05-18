@@ -60,13 +60,23 @@ pipeline {
             }
         }
 
-        stage("Run Docker Container") {
+        // stage("Run Docker Container") {
+        //     steps {
+        //         sh '''
+        //         docker run -d \
+        //         --name appcontainer \
+        //         -p 5000:5000 \
+        //         $DOCKER_IMAGE:$DOCKER_TAG
+        //         '''
+        //     }
+        // }
+
+        stage("Deploy Using Docker Compose") {
             steps {
                 sh '''
-                docker run -d \
-                --name appcontainer \
-                -p 5000:5000 \
-                $DOCKER_IMAGE:$DOCKER_TAG
+                docker-compose down || true
+                docker-compose pull
+                docker-compose up -d
                 '''
             }
         }
