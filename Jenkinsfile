@@ -8,7 +8,7 @@ pipeline{
     DOCKER_IMAGE = "shivam5252/dockerapp"
 
 
-`   }
+   }
     stages{
         stage("checkoutfromgit"){
             steps{
