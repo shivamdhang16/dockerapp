@@ -10,11 +10,20 @@ pipeline {
         DOCKER_IMAGE = "shivam5252/dockerapp"
     }
 
+
+    parameters {
+        choice(
+            name: 'BRANCH',
+            choices: ['dev', 'main'],
+            description: 'Select Git branch'
+        )
+    }
+
     stages {
 
         stage("Checkout From Git") {
             steps {
-                git branch: "${GITHUB_CODE_BRANCH}",
+                git branch: "${params.BRANCH}",
                     url: "${GITHUB_CODE_REPO_URL}",
                     credentialsId: "${GITHUB_REPO_CRED}"
             }
