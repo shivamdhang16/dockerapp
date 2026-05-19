@@ -1,22 +1,23 @@
+
 pipeline {
     agent any
 
     environment {
-        GITHUB_CODE_REPO_URL = 'https://github.com/shivamdhang16/dockerapp'
-        GITHUB_CODE_BRANCH   = 'main'
-        GITHUB_REPO_CRED     = 'git-creds-sd'
-
         DOCKER_TAG   = "${BUILD_NUMBER}"
         DOCKER_IMAGE = "shivam5252/dockerapp"
     }
 
     stages {
 
-        stage("Checkout From Git") {
+        stage('Checkout Code') {
             steps {
-                git branch: "${GITHUB_CODE_BRANCH}",
-                    url: "${GITHUB_CODE_REPO_URL}",
-                    credentialsId: "${GITHUB_REPO_CRED}"
+                checkout scm
+            }
+        }
+
+        stage('Show Branch') {
+            steps {
+                echo "Current branch is: ${env.BRANCH_NAME}"
             }
         }
 
@@ -38,49 +39,19 @@ pipeline {
 
         stage("Build Docker Image") {
             steps {
+
                 sh '''
-                docker build -t $DOCKER_IMAGE:$DOCKER_TAG .
+                docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
                 '''
             }
         }
 
         stage("Push To Docker Hub") {
             steps {
+
                 sh '''
-                docker push $DOCKER_IMAGE:$DOCKER_TAG
+                docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
                 '''
-            }
-        }
-
-        stage("Remove Old Container") {
-            steps {
-                sh '''
-                docker rm -f appcontainer || true
-                '''
-            }
-        }
-
-        // stage("Run Docker Container") {
-        //     steps {
-        //         sh '''
-        //         docker run -d \
-        //         --name appcontainer \
-        //         -p 5000:5000 \
-        //         $DOCKER_IMAGE:$DOCKER_TAG
-        //         '''
-        //     }
-        // }
-
-        stage("Deploy Using Docker Compose") {
-            steps {
-
-                 sh '''
-                export TAG=${BUILD_NUMBER}
-
-                docker-compose down || true
-                docker-compose pull
-                docker-compose up -d
-        '''
             }
         }
     }
