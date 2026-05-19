@@ -1,11 +1,3 @@
-
----
-
-# 🔹 STEP 14 → Update Jenkinsfile
-
-Use this Jenkinsfile:
-
-```groovy
 pipeline {
     agent any
 
