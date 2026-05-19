@@ -53,5 +53,41 @@ pipeline {
                 '''
             }
         }
+
+        stage("Remove Old Container") {
+            steps {
+
+                sh '''
+                docker rm -f appcontainer || true
+                '''
+            }
+        }
+
+        stage("Deploy Container") {
+            steps {
+
+                sh '''
+                docker run -d \
+                --name appcontainer \
+                -p 5000:5000 \
+                ${DOCKER_IMAGE}:${DOCKER_TAG}
+                '''
+            }
+        }
+    }
+
+    post {
+
+        success {
+            echo "Build and Deployment Successful"
+        }
+
+        failure {
+            echo "Pipeline Failed"
+        }
+
+        always {
+            sh 'docker logout'
+        }
     }
 }
