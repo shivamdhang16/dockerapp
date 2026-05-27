@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    //  agent {
+    //     label 'docker'
+    // } 
+
     environment {
         DOCKER_TAG   = "${BUILD_NUMBER}"
         DOCKER_IMAGE = "shivam5252/dockerapp"
@@ -74,6 +78,10 @@ pipeline {
                 '''
             }
         }
+
+        stage ("compliting all step")
+
+         echo "all steps done"
     }
 
     post {
