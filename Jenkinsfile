@@ -1,3 +1,4 @@
+@Library('my-shared-lib') _
 pipeline {
     agent any
 
@@ -72,6 +73,11 @@ pipeline {
                 -p 5000:5000 \
                 $DOCKER_IMAGE:$DOCKER_TAG
                 '''
+            }
+        }
+	 stage('Test Shared Library') {
+            steps {
+                hello()
             }
         }
     }
