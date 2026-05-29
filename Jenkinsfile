@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    //  agent {
-    //     label 'docker'
-    // } 
-
     environment {
         DOCKER_TAG   = "${BUILD_NUMBER}"
         DOCKER_IMAGE = "shivam5252/dockerapp"
@@ -44,7 +40,7 @@ pipeline {
             steps {
 
                 sh '''
-                docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
+                docker build -t $DOCKER_IMAGE:$DOCKER_TAG .
                 '''
             }
         }
@@ -53,7 +49,7 @@ pipeline {
             steps {
 
                 sh '''
-                docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
+                docker push $DOCKER_IMAGE:$DOCKER_TAG
                 '''
             }
         }
@@ -74,14 +70,10 @@ pipeline {
                 docker run -d \
                 --name appcontainer \
                 -p 5000:5000 \
-                ${DOCKER_IMAGE}:${DOCKER_TAG}
+                $DOCKER_IMAGE:$DOCKER_TAG
                 '''
             }
         }
-
-        stage ("compliting all step")
-
-         echo "all steps done"
     }
 
     post {
