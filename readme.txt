@@ -327,7 +327,20 @@ docker --version
 
 ---
 
+Jenkins Shared Library Docker Build
+
+Created a Jenkins Shared Library to reuse Docker build commands across multiple pipelines.
+Added dockerBuild.groovy inside the vars/ directory for centralized Docker build logic.
+Configured Jenkins Global Trusted Pipeline Library with GitHub repository integration.
+Used environment variables DOCKER_IMAGE and DOCKER_TAG in Jenkins pipeline.
+Successfully built Docker images using reusable Shared Library functions.
+
+
+
+
+
 # Author
+
 
 Shivam
 Cloud & DevOps Engineer
